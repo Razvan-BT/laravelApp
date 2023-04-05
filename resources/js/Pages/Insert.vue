@@ -8,7 +8,7 @@ import { Head, useForm } from '@inertiajs/vue3';
 const form = useForm({
 
   link: '',
-  adminDataRequest: '', // admin
+  // adminDataRequest: '', // admin
   description: '',
   by: '',
   location: 'Productie',
@@ -45,11 +45,11 @@ console.log(form);
                 <TextInput id="name" type="text" class="mt-1 block w-50" v-model="form.link" required />
               </div>
 
-              <div class="mt-2">
+              <!-- <div class="mt-2">
                 <strong>Set admin level for link: </strong>
                 <TextInput min="0" max="6" type="number" class="mt-1 block w-50"
                   v-model="form.adminDataRequest" required />
-              </div>
+              </div> -->
 
               <div class="mt-2">
                 <strong>Title: </strong>

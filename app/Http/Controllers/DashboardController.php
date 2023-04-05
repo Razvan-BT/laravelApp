@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Links;
+use App\Models\Permissions;
 use App\Models\User; 
 
 class DashboardController extends Controller
@@ -14,8 +15,10 @@ class DashboardController extends Controller
     public function showData() {
         
         $links = Links::all();
+        $perm = Permissions::all();
         $data = [
             'links_' => $links,
+            'permission' => $perm,
         ];
 
         return Inertia::render('Links', $data);
@@ -39,7 +42,7 @@ class DashboardController extends Controller
         $link = new Links;
 
         $link->link = $request->input('link');
-        $link->admin = $request->input('adminDataRequest');
+        // $link->admin = $request->input('adminDataRequest');
         $link->location = $request->input('location');
         $link->by = $request->input('by');
         $link->description = $request->input('description');

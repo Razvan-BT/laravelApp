@@ -1,15 +1,36 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, usePage, useForm } from '@inertiajs/vue3';
+import { ref } from 'vue'
+
+const realLinks = ref([]);
 
 const form = useForm({});
 const propsDefinition = defineProps({
     links_: {
         type: Object,
         required: true
+    },     
+    permission: {
+        type: Object,
+        required: true
     },
 });
 console.log(propsDefinition.links_);
+console.log(propsDefinition.permission);
+
+for(let i = 0; i < propsDefinition.links_.length; i++) {
+    for(let z = 0; z < propsDefinition.permission.length; z++) {
+        if(propsDefinition.links_[i].location == propsDefinition.permission[z].links_category) {
+            if(usePage().props.auth.user.email == propsDefinition.permission[z].user) {
+                realLinks.value.push(propsDefinition.links_[i]);
+                // console.warn(propsDefinition.links_[i]);
+            }  
+        }
+    }
+}
+
+console.log(realLinks);
 
 function openLink(link) {
     window.open(link, '_blank');
@@ -50,8 +71,8 @@ function openLink(link) {
 
         <div class="py-12 container text-center">
             <div class="row row-cols-lg-5 g-2 g-lg-3">
-                <div class="col" v-for="(n, index) in links_" v-bind:key="index">
-                    <div v-if="usePage().props.auth.user.admin_level >= n.admin" class="shadow bg-body border bg-light rounded">
+                <div class="col" v-for="(n, index) in realLinks" v-bind:key="index">
+                    <div class="shadow bg-body border bg-light rounded">
                         <div class="content-image">
                             <img style="display: block;max-width: 100%; height: 250px; cursor: pointer;"
                                 :src="`http://192.168.0.249:1880/getImage_ctc?link=/Public/MTM/imagini_tablete/LINKS_photos/&code=${n.location}`"
